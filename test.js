@@ -54,5 +54,9 @@ const sanitizeNames = _.map(_.compose(_underscore, _.toLower));
 console.log(sanitizeNames(['Hello World']));
 
 // 彩蛋1
+const formatMoney = _.compose(accounting.formatMoney, _.prop('dollar_value'));
+const availablePrices = _.compose(join(', '), _.map(formatMoney), _.filter(_.prop('in_stock')));
 
 // 彩蛋2
+const append = _.flip(_.concat);
+const fastestCar = _.compose(append(' is the fastest'), _.prop('name'), _.last, _.sortBy(_.prop('horsepower')));
