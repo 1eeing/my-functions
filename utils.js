@@ -13,6 +13,22 @@ export const compose = (...args) => {
     }
 };
 
+export const curry = (fn, ...args) => {
+    if(args.length >= fn.length){
+        return fn(...args);
+    }
+    return function(...args2) {
+        return curry(fn, ...args, ...args2);
+    }
+};
+
+const b = function(x, y, z) {
+    return x + y + z;
+};
+
+const a = curry(b);
+console.log(a(1)(2)(3));
+
 export const debounce = (fn, delay) => {
     let timer;
     return function(...args) {
