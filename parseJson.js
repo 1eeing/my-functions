@@ -46,7 +46,7 @@ const parseObjectToHtml = obj1 => {
     // 处理空格
     const addEmpty = level => {
         let emptys = '';
-        for(let i = 0; i < level; i++){
+        for(let i = 0; i < level * 4; i++){
             emptys += '&nbsp;';
         }
         return emptys;
@@ -57,7 +57,7 @@ const parseObjectToHtml = obj1 => {
         return i < len - 1 ? ',' : '';
     };
 
-    const handler = (obj, level = 2) => {
+    const handler = (obj, level = 1) => {
         const keys = Object.keys(obj);
         const length = keys.length;
         // 遍历对象
@@ -65,7 +65,7 @@ const parseObjectToHtml = obj1 => {
             // 处理对象
             if(typeValidate(obj[key]) === 'object'){
                 res.push(`${addEmpty(level)}"${key}": {`);
-                handler(obj[key], level * 2);
+                handler(obj[key], level + 1);
                 res.push(`${addEmpty(level)}}${addComma(index, length)}`);
             }
             // 处理数组
