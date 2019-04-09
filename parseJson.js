@@ -44,7 +44,7 @@ const parseObjectToHtml = obj1 => {
     let res = [];
 
     // 处理空格
-    const addEmpty = (level) => {
+    const addEmpty = level => {
         let emptys = '';
         for(let i = 0; i < level; i++){
             emptys += '&nbsp;';
@@ -52,22 +52,39 @@ const parseObjectToHtml = obj1 => {
         return emptys;
     }
 
+    // 处理最后一个逗号
+    const addComma = (i, len) => {
+        return i < len - 1 ? ',' : '';
+    };
+
     const handler = (obj, level = 2) => {
+        const keys = Object.keys(obj);
+        const length = keys.length;
         // 遍历对象
-        for(let key in obj){
-            // 如果该项不是对象，则简单处理即可
-            if(typeValidate(obj[key]) !== 'object'){
-                res.push(`${addEmpty(level)}"${key}": ${obj[key]}`);
-            }else{
+        keys.forEach((key, index) => {
+            // 处理对象
+            if(typeValidate(obj[key]) === 'object'){
                 res.push(`${addEmpty(level)}"${key}": {`);
-                res.push(handler(obj[key], level * 2));
-                res.push(`${addEmpty(level)}}`);
+                handler(obj[key], level * 2);
+                res.push(`${addEmpty(level)}}${addComma(index, length)}`);
             }
-        }
+            // 处理数组
+            else if(typeValidate(obj[key]) === 'array'){
+                res.push(`${addEmpty(level)}"${key}": ${JSON.stringify(obj[key])}${addComma(index, length)}`);
+            }
+            // 处理string
+            else if(typeValidate(obj[key] === 'string')){
+                res.push(`${addEmpty(level)}"${key}": "${obj[key]}"${addComma(index, length)}`);
+            }
+            // 其他
+            else{
+                res.push(`${addEmpty(level)}"${key}": ${obj[key]}${addComma(index, length)}`);
+            }
+        });
     }
     
     res.push('{');
-    res.push(handler(obj1));
+    handler(obj1);
     res.push('}');
 
     return res.join('<br>');
@@ -89,6 +106,7 @@ const a = {
     a: 1,
     b: null,
     c: [1,2,3,4],
+    s: Symbol('s'),
     d: {
         q: 1,
         w: 'alal',
