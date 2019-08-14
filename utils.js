@@ -1,3 +1,4 @@
+// 从左往右执行
 export const compose = (...args) => {
     const length = args.length;
     if(length < 1) return () => {};
@@ -12,6 +13,76 @@ export const compose = (...args) => {
         return f1(res);
     }
 };
+
+// 从左往右执行
+export const pipe = (...fns) => {
+    return function(...args) {
+        return fns.reduce((prev, cur) => cur[Array.isArray(prev) ? 'apply' : 'call'](this, prev), args);
+    };
+}
+
+const a = (x, y) => x + y;
+
+const b = (x) => x + 1;
+
+const fn = pipe(a, b);
+console.log(fn(2, 3));
+
+
+Array.prototype.map = function(fn) {
+    let res = [];
+    for (let i = 0; i < this.length; i++) {
+        res.push(fn.call(this, this[i]));
+    }
+    return res;
+}
+
+Array.prototype.reduce = function(fn, initValue) {
+    let prev = initValue === void 0 ? this[0] : initValue;
+    for (let i = initValue === void 0 ? 1 : 0; i < this.length; i++) {
+        prev = fn.call(this, prev, this[i], i, this);
+    }
+    return prev;
+}
+
+const a = (x, y) => x + y;
+console.log([1,2,3,4].reduce(a, 5))
+
+Array.prototype.promiseReduce = async function(fn, initValue) {
+    let prev = initValue === void 0 ? await this[0] : initValue;
+    for (let i = initValue === void 0 ? 1 : 0; i < this.length; i++) {
+        prev = fn.call(this, prev, await this[i], i, this);
+    }
+    return prev;
+}
+
+const a = [
+    Promise.resolve(1),
+    Promise.reject(2),
+    Promise.resolve(3),
+]
+
+a.promiseReduce((prev, cur) => {
+    return prev + cur;
+}).then(res => console.log(res)).catch(e => console.log('捕获错误：' + e));
+
+
+// TODO finish promisePipe
+// export const promisePipe = (...fns) => {
+//     return function(...args) {
+//         return fns.promiseReduce(async (prev, cur) => {
+//             return await cur[Array.isArray(args) ? 'apply' : 'call'](this, prev);
+//         }, args)
+//     }
+// }
+
+// const a = (x, y) => Promise.resolve(x + y);
+
+// const b = (x) => Promise.resolve(x + 1);
+
+// const fn = promisePipe(a, b);
+// fn(2,3).then(res => console.log(res)).catch(e => console.log('捕获错误：' + e));
+
 
 export const curry = (fn, ...args) => {
     if(args.length >= fn.length){
