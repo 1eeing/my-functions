@@ -6,7 +6,7 @@ Function.prototype.bind = function(target, ...args) {
 }
 
 
-// 从左往右执行
+// 从右往左执行
 export const compose = (...args) => {
     const length = args.length;
     if(length < 1) return () => {};

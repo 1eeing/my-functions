@@ -62,8 +62,16 @@ Person.prototype.sayHi = function() {
  * 三、子构造函数的constructor属性指向自身的构造函数（为了使实例的constructor属性指向自身构造函数，惯例）
  */
 function inherit(c, p) {
-    c.prototype = new p();
-    c.prototype.constructor = c;
+    // 模拟Object.create
+    // 1.解决修改c.prototype会同时修改p.prototype的问题
+    // 2.解决new p()可能会带来副作用的问题
+
+    // 可以用以下两个方案替代
+    // 1. c.prototype = Object.create(p.prototype)
+    // 2. Object.setPrototypeOf(c.prototype, p.prototype);
+    function F() {}
+    F.prototype = p.prototype;
+    c.prototype = new F();
 }
 
 function Hong() {
