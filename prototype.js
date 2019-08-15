@@ -72,6 +72,7 @@ function inherit(c, p) {
     function F() {}
     F.prototype = p.prototype;
     c.prototype = new F();
+    c.prototype.constructor = c;
 }
 
 function Hong() {
@@ -80,3 +81,4 @@ function Hong() {
 inherit(Hong, Person);
 const hong = new Hong('xiaom');
 hong.sayHi();
+console.log(Hong.prototype.constructor)
