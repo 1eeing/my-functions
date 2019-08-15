@@ -1,3 +1,11 @@
+Function.prototype.bind = function(target, ...args) {
+    const fn = this;
+    return function(...args1) {
+        return fn.apply(target, args.concat(args1));
+    }
+}
+
+
 // 从左往右执行
 export const compose = (...args) => {
     const length = args.length;
