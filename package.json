@@ -17,6 +17,10 @@
   },
   "homepage": "https://github.com/1eeing/fp_demo#readme",
   "devDependencies": {
-    "ramda": "^0.26.1"
+    "ramda": "^0.26.1",
+    "typescript": "^3.6.4"
+  },
+  "dependencies": {
+    "@types/node": "^12.7.12"
   }
 }
