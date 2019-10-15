@@ -3,17 +3,16 @@ interface IArgument {
   params: {
     [key: string]: any
   }
+  callback: string
 }
 
-const jsonp = ({ url, params }: IArgument) => new Promise((resolve, reject) => {
+const jsonp = ({ url, params, callback }: IArgument) => new Promise((resolve, reject) => {
   const script = document.createElement('script');
-  const callbackName = 'jsonp_' + Date.now();
-  window[callbackName] = function (data) {
+  window[callback] = function (data) {
     resolve(data);
     document.body.removeChild(script);
-    window[callbackName] = null;
   }
-  const finalParams = { ...params, callback: callbackName };
+  const finalParams = { ...params, callback };
   const arrs = Object.keys(finalParams).map(key => `${key}=${finalParams[key]}`);
   script.src = `${url}?${arrs.join('&')}`;
   document.body.appendChild(script);
