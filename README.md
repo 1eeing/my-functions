@@ -5,5 +5,5 @@
 3. 记录一些函数的源码实现
 
 
-## 相关学习文档
+## 相关资料
 - [《函数式编程指南》](https://legacy.gitbook.com/book/llh911001/mostly-adequate-guide-chinese/details)
