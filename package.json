@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha"
   },
   "repository": {
     "type": "git",
@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/1eeing/fp_demo#readme",
   "devDependencies": {
+    "mocha": "^7.0.0",
     "ramda": "^0.26.1",
     "typescript": "^3.6.4"
   },
