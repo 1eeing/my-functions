@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "mocha"
+    "test": "mocha --require ts-node/register"
   },
   "repository": {
     "type": "git",
@@ -19,6 +19,7 @@
   "devDependencies": {
     "mocha": "^7.0.0",
     "ramda": "^0.26.1",
+    "ts-node": "^8.6.0",
     "typescript": "^3.6.4"
   },
   "dependencies": {
