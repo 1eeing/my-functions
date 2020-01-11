@@ -56,6 +56,71 @@ describe('test mergeBy', function () {
         }
       ]
     },
+    {
+      oldItem: [{
+        key: 'appOpen',
+        value: '',
+        total: 1,
+        event_variable: []
+      }],
+      newItem: [{
+        key: 'appOpen',
+        value: '',
+        total: 2,
+        event_variable: []
+      }],
+      value: [{
+        key: 'appOpen',
+        value: '',
+        total: 2,
+        event_variable: []
+      }],
+    },
+    {
+      oldItem: [{
+        key: 'appOpen',
+        value: '',
+        total: '2',
+        event_variable: []
+      }],
+      newItem: [{
+        key: 'appOpen',
+        value: '',
+        total: 2,
+        event_variable: []
+      }],
+      value: [{
+        key: 'appOpen',
+        value: '',
+        total: 3,
+        event_variable: []
+      }],
+    },
+    {
+      oldItem: [{
+        key: 'payOrder',
+        value: '',
+        total: 1,
+        event_variable: []
+      }],
+      newItem: [{
+        key: 'paySuccess',
+        value: '',
+        total: 1,
+        event_variable: []
+      }],
+      value: [{
+        key: 'payOrder',
+        value: '',
+        total: 1,
+        event_variable: []
+      }, {
+        key: 'paySuccess',
+        value: '',
+        total: 1,
+        event_variable: []
+      }],
+    },
   ]
 
   tests.forEach(item => {
