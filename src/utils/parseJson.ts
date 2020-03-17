@@ -73,7 +73,7 @@ const parseObjectToHtml = obj1 => {
                 res.push(`${addEmpty(level)}"${key}": ${JSON.stringify(obj[key])}${addComma(index, length)}`);
             }
             // 处理string
-            else if(typeValidate(obj[key] === 'string')){
+            else if(typeValidate(obj[key]) === 'string'){
                 res.push(`${addEmpty(level)}"${key}": "${obj[key]}"${addComma(index, length)}`);
             }
             // 其他
@@ -82,7 +82,7 @@ const parseObjectToHtml = obj1 => {
             }
         });
     }
-    
+
     res.push('{');
     handler(obj1);
     res.push('}');
