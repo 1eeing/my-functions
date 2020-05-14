@@ -1,4 +1,3 @@
-const { curry } = require('ramda');
 // 函子，实现了of静态方法的类
 class Functor {
   value: any
@@ -96,12 +95,17 @@ console.log(ApFunctor.of(x => x + 2).ap(ApFunctor.of(3)))
 
 
 // lift 简化
+const { curry } = require('ramda');
+const add = x => y => z =>  x + y + z;
 const liftA2 = curry((f, f1, f2) => {
   return f1.map(f).ap(f2);
 })
 const liftA3 = curry((f, f1, f2, f3) => {
   return f1.map(f).ap(f2).ap(f3);
 })
+console.log(liftA3(add, ApFunctor.of(2), ApFunctor.of(3), ApFunctor.of(6)));
+
+
 
 
 // 免费开瓶器
