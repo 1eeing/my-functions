@@ -1,3 +1,47 @@
+/***************** 闭包 ***************/
+/**
+ * 在外部作用域，保存一个内部作用域的引用
+ * 例如:
+ * function a(){
+ *   var b = 0;
+ *   return function add() {
+ *     return ++b;
+ *   }
+ * }
+ *
+ * var outsideB = a();
+ * 会引起内存泄漏，所以，当不需要使用的时候，需要手动释放掉
+ * outsideB = null;
+ */
+
+
+/***************** 作用域 ***************/
+/**
+ * 函数或者块级作用域内部会形成一个内部作用域，外部无法访问
+ * es6还新增了临时性死区，详见let const
+ * 实现可以参考 [Nvwa.js](https://github.com/1eeing/Nvwa.js) 中关于Scope的实现
+ */
+
+
+
+/***************** 原型 ***************/
+/**
+ * 每一个对象的__proto__属性指向它的构造函数的prototype属性
+ * 例如:
+ * function Car() {};
+ * var car = new Car();
+ * car.__proto__ === Car.prototype;
+ *
+ * 或者
+ * var a = {};
+ * a.__proto__ === Object.prototype;
+ *
+ * 通过原型，形成原型链
+ */
+
+
+
+/***************** 继承 ***************/
 // es5实现继承
 
 // parent function
@@ -82,3 +126,23 @@ inherit(Hong, Person);
 const hong = new Hong('xiaom');
 hong.sayHi();
 console.log(Hong.prototype.constructor)
+
+
+/**
+ * new 的过程发生了什么？
+ * function _new(F){
+ *   1、实例化一个对象
+ *   var obj = {};
+ *
+ *   2、该实例对象的__proto__属性指向构造函数的prototype属性
+ *   obj.__proto__ = F.prototype;
+ *
+ *   3、绑定obj的this
+ *   F.call(obj);
+ *
+ *   return obj;
+ *
+ *   或者使用一步来完成:
+ *   return Object.create(F.prototype);
+ * }
+ */
