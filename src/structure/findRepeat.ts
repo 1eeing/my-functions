@@ -6,7 +6,7 @@ function find<T>(arr: T[], k: T){
   let count = 0;
   const handler = (_arr: T[], _k: T) => {
       if(!_arr || !_arr.length || _k == void 0) return;
-      const midIndex = Math.floor(_arr.length - 1);
+      const midIndex = Math.floor((_arr.length - 1) / 2);
       const mid = _arr[midIndex];
       const left = _arr.slice(0, midIndex);
       const right = _arr.slice(midIndex + 1, _arr.length);
