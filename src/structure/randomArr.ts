@@ -3,14 +3,12 @@
  */
 
 function sort<T>(arr: T[]): T[]{
-  const res = [];
-  const handler = (_arr: T[]) => {
-      if(!_arr.length) return;
+  const handler = (_arr: T[], res: T[]) => {
+      if(!_arr.length) return res;
       const length = _arr.length;
       const index = Math.floor(Math.random() * length);
       res.push(_arr.splice(index, 1)[0]);
-      handler(_arr);
+      return handler(_arr, res);
   }
-  handler(arr);
-  return res;
+  return handler(arr, []);
 }
