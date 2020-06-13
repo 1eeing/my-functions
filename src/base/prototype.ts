@@ -141,6 +141,6 @@ console.log(Hong.prototype.constructor)
  *   const res = F.call(obj);
  *
  *   4、如果返回值是对象，则返回该返回值；否则返回obj
- *   return typeof res === 'object' ? res : obj;
+ *   return Object(res) === res ? res : obj;
  * }
  */
