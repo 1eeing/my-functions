@@ -113,6 +113,8 @@ function inherit(c, p) {
     // 可以用以下两个方案替代
     // 1. c.prototype = Object.create(p.prototype)
     // 2. Object.setPrototypeOf(c.prototype, p.prototype);
+
+    // 之所以要声明一个新的构造函数，是因为如果p带有副作用的话，会给子类带来麻烦
     function F() {}
     F.prototype = p.prototype;
     c.prototype = new F();
