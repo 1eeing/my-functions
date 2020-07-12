@@ -1,61 +1,58 @@
-type IPromiseTask = (resolve: Resolve, reject: Reject) => void
+type IPromiseTask = (resolve: OnFulfilled, reject: OnRejected) => void
 
-type Resolve = (sv: any) => void
+type OnFulfilled = (sv: any) => void
 
-type Reject = (jv: any) => void
+type OnRejected = (jv: any) => void
 
 type Status = 'pending' | 'rejected' | 'resolved'
 
-const defaultReject: Reject = () => { }
+const defaultOnRejected: OnRejected = () => { }
 
 class IPromise {
   private status: Status
-  private prevArgs: any
+  private res: any
+  private err: any
+  private onFulfilled: OnFulfilled
+  private onRejected: OnRejected
 
   constructor(
     private task: IPromiseTask
   ) {
-    this.task = this.injectorTask(this.task);
-  }
-
-  private injectorResolve = (resolve) => {
-    const _this = this;
-    return function (...args) {
-      try {
-        // 拿到第一次resolve执行完的结果
-        const res = resolve.apply(this, _this.prevArgs ? [_this.prevArgs] : args);
-        _this.prevArgs = res;
-        _this.status = 'resolved';
-      } catch (error) {
-        _this.status = 'rejected';
-        throw Error(error);
-      }
+    try {
+      this.status = 'pending';
+      this.task(this.resolveFn, this.rejectFn);
+    } catch (error) {
+      throw Error(error);
     }
   }
 
-  private injectorReject = (reject) => (...args) => {
-    this.status = 'rejected';
-    reject(...args);
+  private resolveFn = (res) => {
+    if(this.status !== 'pending') return;
+    setTimeout(() => {
+      this.status = 'resolved';
+      this.res = res;
+      this.onFulfilled && this.onFulfilled(res);
+    })
   }
 
-  private injectorTask = (task) => (resolve, reject) => {
-    this.status = 'pending'
-    const newResolve = this.injectorResolve(resolve);
-    const newReject = this.injectorReject(reject);
-    task(newResolve, newReject);
+  private rejectFn = (err) => {
+    if(this.status !== 'pending') return;
+    setTimeout(() => {
+      this.status = 'rejected';
+      this.err = err;
+      this.onRejected && this.onRejected(err);
+    })
   }
 
-  static resolve() { }
-
-  static reject() { }
-
-  static race() { }
-
-  static all() { }
-
-  public then(resolve: Resolve, reject: Reject = defaultReject) {
-    this.task(resolve, reject);
-    return this
+  public then(onFulfilled: OnFulfilled, onRejected: OnRejected = defaultOnRejected) {
+    if(this.status === 'pending'){
+      this.onFulfilled = onFulfilled;
+      this.onRejected = onRejected;
+    }else if(this.status === 'resolved'){
+      onFulfilled(this.res);
+    }else if(this.status === 'rejected'){
+      onRejected(this.err);
+    }
   }
 
   public catch() { }
