@@ -12,6 +12,8 @@ Function.prototype.bind = function (context, ...args) {
   const binder = function(...args2) {
     const finalArgs = args.concat(args2);
     // 解决new后this指向的问题
+    // 这样能判断是new出来的原因是，普通执行的时候，this是context或window
+    // 但是在new里面，this是实例对象，实例对象的__proto__属性指向bound.prototype，因此会返回true
     if(this instanceof bound){
       const res = fn.apply(this, finalArgs);
       // 解决存在对象返回值的问题
@@ -32,7 +34,7 @@ Function.prototype.bind = function (context, ...args) {
   // 解决length的问题
   bound = Function('binder', `return function(${boundArgs.join(',')}) { return binder.apply(this, [].slice.call(arguments)) }`)(binder);
 
-  // 解决new后this指向的问题
+  // 没有这一步会导致new出来的对象在原型链上找不到fn，而原生的bind是可以找到的
   if(fn.prototype){
     const Empty = function() {};
     Empty.prototype = fn.prototype;
