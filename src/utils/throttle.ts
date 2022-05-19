@@ -16,4 +16,14 @@ const throttle = (fn, delay) => {
   }
 };
 
+function print() {
+    console.log(Date.now() / 1000)
+}
+
+const p = throttle(print, 2000);
+
+for(let i = 0; i < 5; i++) {
+    p()
+}
+
 export default throttle;

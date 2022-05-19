@@ -140,7 +140,7 @@ console.log(Hong.prototype.constructor)
  *   obj.__proto__ = F.prototype;
  *
  *   3、绑定obj的this，执行构造函数，并得到返回值
- *   const res = F.call(obj);
+ *   const res = F.call(obj);
  *
  *   4、如果返回值是对象，则返回该返回值；否则返回obj
  *   return Object(res) === res ? res : obj;

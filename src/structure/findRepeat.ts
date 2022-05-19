@@ -19,3 +19,5 @@ function find<T>(arr: T[], k: T){
   handler(arr, k);
   return count;
 }
+
+console.log(find([1,2,3,4,5,2,2,3], 2))

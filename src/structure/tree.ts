@@ -1,7 +1,7 @@
 interface Tree {
     value: any
-    left: Tree
-    right: Tree
+    left?: Tree
+    right?: Tree
 }
 
 /**
@@ -47,3 +47,33 @@ export const sequenceMap = (tree: Tree): void => {
         root.right && queue.push(root.right);
     }
 }
+
+const tree: Tree = {
+  value: '1',
+  left: {
+    value: '2-1',
+    left: {
+      value: '3-1',
+      left: {
+        value: '4-1',
+      },
+      right: {
+        value: '4-2',
+      }
+    }
+  },
+  right: {
+    value: '2-2',
+    left: {
+      value: '3-2',
+      left: {
+        value: '4-3',
+      },
+      right: {
+        value: '4-4',
+      }
+    }
+  }
+}
+
+sequenceMap(tree)

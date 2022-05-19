@@ -56,4 +56,4 @@ watch(() => {
 })
 
 obj.a++;
-obj.b++;
+// obj.b++;

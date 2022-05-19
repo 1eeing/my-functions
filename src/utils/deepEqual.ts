@@ -1,4 +1,4 @@
-module.exports = function isEqual(prev, next) {
+module.exports = function deepEqual(prev, next) {
   if (typeof prev !== typeof next) return false;
   if (
     typeof prev === 'string' ||
@@ -13,7 +13,7 @@ module.exports = function isEqual(prev, next) {
     Array.isArray(next)
   ) {
     if (prev.length !== next.length) return false;
-    return prev.every((item, index) => isEqual(item, next[index]));
+    return prev.every((item, index) => deepEqual(item, next[index]));
   }
   if (
     Object.prototype.toString.call(prev) === '[object Object]' &&
@@ -22,8 +22,8 @@ module.exports = function isEqual(prev, next) {
     const prevKeys = Object.keys(prev);
     const nextkeys = Object.keys(next);
     if (
-      prevKeys.every(key => next.hasOwnProperty(key) && isEqual(prev[key], next[key])) &&
-      nextkeys.every(key => prev.hasOwnProperty(key) && isEqual(next[key], prev[key]))
+      prevKeys.every(key => next.hasOwnProperty(key) && deepEqual(prev[key], next[key])) &&
+      nextkeys.every(key => prev.hasOwnProperty(key) && deepEqual(next[key], prev[key]))
     ) return true;
     return false;
   }
